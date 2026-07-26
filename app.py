@@ -52,8 +52,10 @@ def is_secret_path(path):
 
 def inside_outbox(path):
     p = normalize_path(path)
-    return p.startswith(OUTBOX + "/")
 
+    # A write must target a file/path INSIDE the outbox,
+    # not the outbox directory itself.
+    return p.startswith(OUTBOX + "/")
 
 def decode_base64_candidates(text):
     """
