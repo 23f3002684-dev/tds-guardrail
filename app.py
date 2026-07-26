@@ -29,7 +29,7 @@ def normalize_path(path, cwd=WORKSPACE):
         return ""
 
     path = path.strip().strip("'\"")
-
+    path = path.replace("\\", "/")
     # Shell-style home/environment expansion relevant to this agent.
     path = path.replace("${HOME}", HOME)
     path = path.replace("$HOME", HOME)
