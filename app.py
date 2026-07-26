@@ -28,8 +28,13 @@ def normalize_path(path, cwd=WORKSPACE):
     if not isinstance(path, str):
         return ""
 
-    path = path.strip().strip("'\"")
+    path = path.strip().strip("\"'")
     path = path.replace("\\", "/")
+
+    # Canonicalize repeated leading slashes.
+    if path.startswith("//"):
+        path = "/" + path.lstrip("/")
+
     # Shell-style home/environment expansion relevant to this agent.
     path = path.replace("${HOME}", HOME)
     path = path.replace("$HOME", HOME)
@@ -52,11 +57,8 @@ def is_secret_path(path):
 
 def inside_outbox(path):
     p = normalize_path(path)
-
-    # A write must target a file/path INSIDE the outbox,
-    # not the outbox directory itself.
-    return p.startswith(OUTBOX + "/")
-
+    return p == OUTBOX or p.startswith(OUTBOX + "/")
+    
 def decode_base64_candidates(text):
     """
     Find plausible base64 blobs and decode them so commands hidden inside
