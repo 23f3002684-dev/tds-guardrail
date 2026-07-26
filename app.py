@@ -29,8 +29,6 @@ def normalize_path(path, cwd=WORKSPACE):
         return ""
 
     path = path.strip().strip("\"'")
-    path = path.replace("\\", "/")
-
     # Canonicalize repeated leading slashes.
     if path.startswith("//"):
         path = "/" + path.lstrip("/")
