@@ -52,7 +52,7 @@ def is_secret_path(path):
 
 def inside_outbox(path):
     p = normalize_path(path)
-    return p == OUTBOX or p.startswith(OUTBOX + "/")
+    return p.startswith(OUTBOX + "/")
 
 
 def decode_base64_candidates(text):
